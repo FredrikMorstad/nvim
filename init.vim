@@ -48,6 +48,7 @@ let g:airline_symbols.linenr = '☰'
 let g:airline_left_sep = '»'
 let g:airline_symbols.dirty='!'
 let g:airline_symbols.maxlinenr = ' ㏑'
+let g:airline_symbols.paste = 'ρ'
 "lightline colorscheme"
 let g:lightline = {
       \ 'colorscheme': 'solarized',
