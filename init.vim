@@ -29,25 +29,32 @@ syntax on
 set t_Co=256
 set background=dark
 colorscheme dracula
+"air-line"
+"colorscheme"
+let g:airline_theme='jellybeans'
+"shows the current branch"
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#branch#empty_message = ''
-
+let g:airline#extensions#ale#enabled = 1
+"Font for symbols"
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 
-" let g:airline_symbols.branch = ''
+let g:airline_symbols.branch = ''
 let g:airline_symbols.notexists = 'Ɇ'
 let g:airline_symbols.linenr = '☰'
 let g:airline_left_sep = '»'
 let g:airline_symbols.dirty='!'
 let g:airline_symbols.maxlinenr = ' ㏑'
-
+"lightline colorscheme"
 let g:lightline = {
       \ 'colorscheme': 'solarized',
       \ }
-let g:airline_theme='jellybeans'
+"Ale"
+"always have a column"
+let g:ale_sign_column_always = 1
 let g:deoplete#enable_at_startup = 1
 packloadall
 silent! helptags ALL
