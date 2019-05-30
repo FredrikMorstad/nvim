@@ -61,13 +61,14 @@ packloadall
 silent! helptags ALL
 
 "Key bindings:"
+"alt+l to the right-window"
 nnoremap <A-l> <C-w><RIGHT>
-"alt+right arrwow to the right-window"
+"alt+h arrown to move to the left-window"
 nnoremap <A-h> <C-w><LEFT>
-"alt+left arrown to move to the left-window"
-" nnoremap nt 1<C-w>w
+"nt to go to nt"
+nnoremap nt 1<C-w>w
 "tnt to toggle nerdtree"
-nnoremap nt :NERDTreeToggle<CR>
+nnoremap tnt :NERDTreeToggle<CR>
 "rnt to refresh nerdtree root"
 nnoremap rnt :NERDTreeRefreshRoot<CR>
 "ctr + l = unhighlight words
