@@ -57,6 +57,8 @@ let g:lightline = {
 "always have a column"
 let g:ale_sign_column_always = 1
 let g:deoplete#enable_at_startup = 1
+"Nerdtree"
+let g:NERDTreeChDirMode = 2
 packloadall
 silent! helptags ALL
 
