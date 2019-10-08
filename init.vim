@@ -16,22 +16,27 @@ call plug#begin()
 	Plug 'itchyny/lightline.vim'
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
+	Plug 'cocopon/iceberg.vim'
 	Plug 'tpope/vim-fugitive'
+	Plug 'numirias/semshi'
+	call plug#end()
 
-	
-call plug#end()
 set tabstop=4
 set shiftwidth=4
 set clipboard=unnamedplus
 set number relativenumber
 set mouse=a
-syntax on
+syntax enable
 set t_Co=256
 set background=dark
 colorscheme dracula
+
+" let g:semshi#excluded_hl_groups = ['global', 'local']
+let g:semshi#mark_selected_nodes = 0
+let g:semshi#error_sign = 0
+let g:semshi#update_delay_factor = 0.01
 "air-line"
 "colorscheme"
-let g:airline_theme='jellybeans'
 "shows the current branch"
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#branch#empty_message = ''
@@ -108,6 +113,13 @@ nnoremap = $
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
+function MyCustomHighlights()
+	hi semshiUnresolved      ctermfg=100 guifg=#ffff00 cterm=bold gui=bold
+    hi semshiSelf    ctermfg=205  
+	hi semshiParameter       ctermfg=75
+	hi semshiAttribute       ctermfg=75 
+endfunction
+autocmd FileType python call MyCustomHighlights()
 
 "ctr + {number} = go to that tab (ctr + 0 goes to last tab)
 function Tabber()
