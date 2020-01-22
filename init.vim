@@ -13,12 +13,17 @@ call plug#begin()
 	Plug 'rafi/awesome-vim-colorschemes'
 	Plug 'w0rp/ale'
 	Plug 'dracula/vim'
+	Plug 'cocopon/iceberg.vim'
 	Plug 'itchyny/lightline.vim'
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
-	Plug 'cocopon/iceberg.vim'
+	Plug 'gkeep/iceberg-dark'
 	Plug 'tpope/vim-fugitive'
 	Plug 'numirias/semshi'
+	Plug 'omnisharp/omnisharp-vim'
+	"latex"
+	Plug 'xuhdev/vim-latex-live-preview'
+	Plug 'lervag/vimtex'
 	call plug#end()
 
 set tabstop=4
@@ -31,13 +36,26 @@ set t_Co=256
 set background=dark
 colorscheme dracula
 
-" let g:semshi#excluded_hl_groups = ['global', 'local']
+set noswapfile
+
+set undofile
+set undodir=$HOME/.vim/undo
+set undolevels=1000
+set undoreload=10000
+
+"latex"
+"live-preview"
+let g:livepreview_cursorhold_recompile = 0
+let g:livepreview_previewer = 'evince'
+
+let g:semshi#excluded_hl_groups = ['global', 'local']
 let g:semshi#mark_selected_nodes = 0
 let g:semshi#error_sign = 0
 let g:semshi#update_delay_factor = 0.01
 "air-line"
 "colorscheme"
 "shows the current branch"
+let g:lightline = { 'colorscheme': 'icebergDark' }
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#branch#empty_message = ''
 let g:airline#extensions#ale#enabled = 1
@@ -110,11 +128,15 @@ nnoremap rw viwp
 "= = end of line (normal mode)
 nnoremap = $
 
-" <TAB>: completion.
+"latex" 
+nnoremap <A-a> :LLPStartPreview<CR>
+
+"<TAB>: completion."
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 function MyCustomHighlights()
 	hi semshiUnresolved      ctermfg=100 guifg=#ffff00 cterm=bold gui=bold
+	hi semshiGlobal      ctermfg=205 guifg= #ffff00
     hi semshiSelf    ctermfg=205  
 	hi semshiParameter       ctermfg=75
 	hi semshiAttribute       ctermfg=75 
