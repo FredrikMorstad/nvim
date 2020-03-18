@@ -5,6 +5,7 @@ call plug#begin()
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins'}
 	Plug 'deoplete-plugins/deoplete-jedi'
 	Plug 'zchee/deoplete-clang'
+	Plug 'mbbill/echofunc'
 
 	"util"
 	Plug 'terryma/vim-multiple-cursors'
@@ -21,6 +22,7 @@ call plug#begin()
 	
 	" vim commentary (gcc)"
 	Plug 'tpope/vim-commentary'
+
 
 	" colorschemes"
 	Plug 'altercation/vim-colors-solarized'
