@@ -1,6 +1,10 @@
 call plug#begin()
-	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 	Plug 'omnisharp/omnisharp-vim'
+
+	"Deoplete"
+	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins'}
+	Plug 'deoplete-plugins/deoplete-jedi'
+	Plug 'zchee/deoplete-clang'
 
 	"util"
 	Plug 'terryma/vim-multiple-cursors'
@@ -13,6 +17,7 @@ call plug#begin()
 	Plug 'justinmk/vim-syntax-extra'
 	Plug 'octol/vim-cpp-enhanced-highlight'
 	Plug 'numirias/semshi'
+
 	
 	" vim commentary (gcc)"
 	Plug 'tpope/vim-commentary'
@@ -57,10 +62,16 @@ set undodir=$HOME/.vim/undo
 set undolevels=1000
 set undoreload=10000
 
+"Deoplete"
+let g:python3_host_prog = "/usr/bin/python3.6"
+let g:deoplete#sources#clang#libclang_path='/usr/lib/rstudio/bin/rsclang/libclang.so'
+set completeopt-=preview "no scratch"
+
 "latex"
 "live-preview"
 let g:livepreview_cursorhold_recompile = 0 "recompile when saving"
 let g:livepreview_previewer = 'evince'
+
 "Semshi"
 let g:semshi#excluded_hl_groups = ['global', 'local']
 let g:semshi#mark_selected_nodes = 0
@@ -90,7 +101,7 @@ let g:NERDTreeChDirMode = 2
 packloadall
 silent! helptags ALL
 
-"Key bindings:"
+" Key bindings:"
 
 "alt+l to the right-window"
 nnoremap <A-l> <C-w><RIGHT>
@@ -128,9 +139,6 @@ inoremap <A-j> <Esc>:m .+1<CR>==gi
 nnoremap <A-k> :m.-2<CR>==
 vnoremap <A-k> :m '<-2<CR>gv=gv
 inoremap <A-k> <Esc>:m .-2<CR>==gi
-
-"r + w = replace inner word
-nnoremap rw viwp
 
 "= = end of line (normal mode)
 nnoremap = $
