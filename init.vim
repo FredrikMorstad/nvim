@@ -1,6 +1,6 @@
 call plug#begin()
 	Plug 'omnisharp/omnisharp-vim'
-
+	
 	"Deoplete"
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins'}
 	Plug 'deoplete-plugins/deoplete-jedi'
@@ -88,14 +88,23 @@ hi SpellBad cterm=underline
 hi SpellBad gui=undercurl
 
 hi clear SpellCap
-hi SpellBad cterm=underline
+hi SpellCap cterm=underline
 	:highlight clear SpellCap
 	:highlight SpellCap  ctermfg=196 cterm=underline
 hi SpellCap gui=undercurl
 
+hi clear SpellRare
+
+"Scope "
+" nnoremap <C-f>fa :call CscopeFindInteractive(expand('<cword>'))<CR>
+
 "Ale"
 "always have a column"
 let g:ale_sign_column_always = 1
+let g:ale_parse_makefile=1
+let g:ale_linters={
+		\'c':['clang'],
+	\}
 let g:deoplete#enable_at_startup = 1
 
 "Nerdtree"
@@ -149,8 +158,9 @@ nnoremap = $
 "Alt-a to completion with preview"
 nnoremap <A-a> :LLPStartPreview<CR>
 
-"<TAB>: completion."
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"<TAB>: completion. tab and shift tab"
+inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>" 
 
 function MyCustomHighlights()
 	hi semshiUnresolved      ctermfg=100 guifg=#ffff00 cterm=bold gui=bold
