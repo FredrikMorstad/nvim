@@ -18,11 +18,11 @@ call plug#begin()
 	Plug 'justinmk/vim-syntax-extra'
 	Plug 'octol/vim-cpp-enhanced-highlight'
 	Plug 'numirias/semshi'
+	Plug 'peitalin/vim-jsx-typescript'
 
 	
 	" vim commentary (gcc)"
 	Plug 'tpope/vim-commentary'
-
 
 	" colorschemes"
 	Plug 'altercation/vim-colors-solarized'
@@ -54,7 +54,7 @@ syntax enable
 set spell spelllang=en_us
 set t_Co=256
 set background=dark
-colorscheme dracula
+colorscheme onedark
 
 set noswapfile
 
@@ -73,6 +73,11 @@ set completeopt-=preview "no scratch"
 "live-preview"
 let g:livepreview_cursorhold_recompile = 0 "recompile when saving"
 let g:livepreview_previewer = 'evince'
+
+"vimtex"
+let g:vimtex_compiler_progname = 'nvr'
+let g:tex_flavor = "latex"
+" nvr --remote-silent %f -c %l
 
 "Semshi"
 let g:semshi#excluded_hl_groups = ['global', 'local']
@@ -106,6 +111,7 @@ let g:ale_linters={
 		\'c':['clang'],
 	\}
 let g:deoplete#enable_at_startup = 1
+let g:ale_tex_lacheck_executable = 'lacheck'
 
 "Nerdtree"
 let g:NERDTreeChDirMode = 2
@@ -135,6 +141,8 @@ nnoremap <C-t> :tabedit<CR>
 nnoremap <tab> :tabn<CR>
 "shift + tab = go to previous tab
 nnoremap <S-tab> :tabp<CR>
+"Fix"
+" nnoremap <C-i> gg=G
 
 "shift + j = jump half page down
 nnoremap <S-J> <C-D>                                                        
@@ -152,8 +160,10 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 inoremap <A-k> <Esc>:m .-2<CR>==gi
 
 "= = end of line (normal mode)
-nnoremap = $
-
+" nnoremap = $
+"multi line tab in"
+vnoremap < <gv
+vnoremap > >gv
 "latex"
 "Alt-a to completion with preview"
 nnoremap <A-a> :LLPStartPreview<CR>
