@@ -1,0 +1,10 @@
+{
+    "diagnostic.errorSign": "✘",
+    "diagnostic.warningSign": "！",
+    "diagnostic.infoSign": "¡",
+    "diagnostic.checkCurrentLine": true,
+    "diagnostic.messageTarget": "echo",
+    "coc.preferences.hoverTarget": "float",
+    "python.pythonPath": "/usr/bin/python3",
+    "clangd.path": "/home/fredrik/.config/coc/extensions/coc-clangd-data/install/12.0.1/clangd_12.0.1/bin/clangd"
+}
