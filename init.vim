@@ -1,16 +1,18 @@
-call plug#begin()
+call plug#begin('~/.config/nvim/plugged')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	
 	"util"
 	Plug 'terryma/vim-multiple-cursors'
 	Plug 'wellle/targets.vim'
 	Plug 'rhysd/accelerated-jk'
-	Plug 'jiangmiao/auto-pairs'
+	" Plug 'jiangmiao/auto-pairs'
 	Plug 'scrooloose/nerdtree'
-	" highlight"
+    Plug 'windwp/nvim-autopairs'
+
+    " highlight"
 	Plug 'justinmk/vim-syntax-extra'
 	Plug 'octol/vim-cpp-enhanced-highlight'
-	Plug 'numirias/semshi'
+	" Plug 'numirias/semshi'
 	Plug 'HerringtonDarkholme/yats.vim'
 
 	" vim commentary (gcc)"
@@ -22,11 +24,8 @@ call plug#begin()
 	"this has to be under"
 	Plug 'dracula/vim'
 
-	"linter"
-	" Plug 'w0rp/ale'
-
 	"air and lightline"
-	Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 	Plug 'tpope/vim-fugitive'
 
@@ -37,6 +36,10 @@ call plug#begin()
 	Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+
+    "Fuzzy finder"
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'ibhagwan/fzf-lua'
 
 	call plug#end()
 
@@ -73,11 +76,57 @@ let mapleader = " "
 
 set completeopt-=preview "no scratch"
 
+lua << EOF
+
+vim.keymap.set("n", "<leader>tf", function()
+    if vim.b.do_format == nil then
+        vim.b.do_format = false
+    else
+        vim.b.do_format = not vim.b.do_format
+    end
+
+    if vim.b.do_format then
+        vim.api.nvim_echo({ { "Enabled autoformatting on save" } }, false, {})
+    else
+        vim.api.nvim_echo({ { "Disabled autoformatting on save" } }, false, {})
+    end
+end)
+
+    
+local group = vim.api.nvim_create_augroup("MyCustomGroup", { clear = true })
+vim.api.nvim_create_autocmd("BufEnter", {
+    group = group,
+    pattern = "*",
+    callback = function()
+        vim.opt.formatoptions = vim.opt.formatoptions - 'o' + 'r' + 'c' - 't'
+    end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+    group = group,
+    pattern = { "*.ts", "*.js", "*.tsx", "*.jsx", "*.css", "*.scss", "*.html" },
+    callback = function()
+        if vim.b.do_format ~= false then
+            vim.cmd("Prettier")
+        end
+    end,
+})
+
+require("nvim-autopairs").setup {}
+
+EOF
+
+"Source language toggle" 
+source ~/.config/nvim/config/lang_toggle.lua
+
+"
 "latex"
 "live-preview"
 let g:livepreview_cursorhold_recompile = 0 "recompile when saving"
 let g:livepreview_previewer = 'evince'
 
+
+"vipy -> vi(P"
 "vimtex"
 let g:vimtex_compiler_progname = 'nvr'
 let g:tex_flavor = "latex"
@@ -92,10 +141,10 @@ let g:vimtex_quickfix_mode = 0
 let g:airline#extensions#coc#enabled = 0
 
 "Semshi"
-let g:semshi#excluded_hl_groups = ['global', 'local']
-let g:semshi#mark_selected_nodes = 0
-let g:semshi#error_sign = 0
-let g:semshi#update_delay_factor = 0.01
+" let g:semshi#excluded_hl_groups = ['global', 'local']
+" let g:semshi#mark_selected_nodes = 0
+" let g:semshi#error_sign = 0
+" let g:semshi#update_delay_factor = 0.01
 
 let g:python3_host_prog = '/usr/bin/python3.10'
 
@@ -138,13 +187,16 @@ silent! helptags ALL
 
 " Key bindings:"
 
+" fuzzy finder "
+nnoremap <leader>s :FzfLua files<CR>
+nnoremap <leader>g :FzfLua git_files<CR>
+
+
 " alt+l to the right-window"
 nnoremap <A-l> <C-w><RIGHT>
 "alt+h arrown to move to the left-window"
 nnoremap <A-h> <C-w><LEFT>
 
-"nt to go to nt"
-nnoremap <leader>t 1<C-w>w
 "tnt to toggle nerdtree"
 nnoremap <leader>n :NERDTreeToggle<CR>
 "rnt to refresh nerdtree root"
@@ -155,7 +207,17 @@ nmap <silent> gd <Plug>(coc-definition)
 nnoremap <silent> gb <C-t>
 nmap <silent> gr <Plug>(coc-references)
 
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "<C-g>u<CR><c-r>=coc#on_enter()<CR>"
+inoremap <silent><expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "<C-g>u<CR><c-r>=coc#on_enter()<CR>"
+
+let g:coc_global_extensions = [ 'coc-json',
+    \'coc-tsserver',
+    \'coc-vimtex',
+    \'coc-styled-components',
+    \'coc-pyright',
+    \'coc-go',
+    \'coc-css',
+    \'coc-clangd',]
+
 
 nnoremap <silent> gh :call <SID>show_documentation()<CR>
 
@@ -180,6 +242,8 @@ nnoremap <C-t> :tabedit<CR>
 nnoremap <tab> :tabn<CR>
 "shift + tab = go to previous tab
 nnoremap <S-tab> :tabp<CR>
+"ctrl+w" tabclose
+nnoremap <leader>c :tabclose<CR>
 "Fix"
 " nnoremap <C-i> gg=G
 
@@ -201,24 +265,35 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 "= = end of line (normal mode)
 " nnoremap = $
 "multi line tab in"
-vnoremap < <gv
-vnoremap > >gv
+vnoremap > <gv
+vnoremap < >gv
 "latex"
 "Alt-a to completion with preview"
 nnoremap <A-a> :LLPStartPreview<CR>
 
 "<TAB>: completion. tab and shift tab"
-inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>" 
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-function MyCustomHighlights()
-	hi semshiUnresolved      ctermfg=100 guifg=#ffff00 cterm=bold gui=bold
-	hi semshiGlobal      ctermfg=205 guifg= #ffff00
-    hi semshiSelf    ctermfg=205  
-	hi semshiParameter       ctermfg=75
-	hi semshiAttribute       ctermfg=75 
+"something something used in TAB"
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-autocmd FileType python call MyCustomHighlights()
+
+
+" function MyCustomHighlights()
+" 	hi semshiUnresolved      ctermfg=100 guifg=#ffff00 cterm=bold gui=bold
+" 	hi semshiGlobal      ctermfg=205 guifg= #ffff00
+"     hi semshiSelf    ctermfg=205  
+" 	hi semshiParameter       ctermfg=75
+" 	hi semshiAttribute       ctermfg=75 
+" endfunction
+" autocmd FileType python call MyCustomHighlights()
+"
 
 "air-line"
 "shows the current branch"
