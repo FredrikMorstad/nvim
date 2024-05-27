@@ -1,39 +1,39 @@
 call plug#begin('~/.config/nvim/plugged')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
-	
-	"util"
-	Plug 'terryma/vim-multiple-cursors'
-	Plug 'wellle/targets.vim'
-	Plug 'rhysd/accelerated-jk'
-	" Plug 'jiangmiao/auto-pairs'
-	Plug 'scrooloose/nerdtree'
+
+    "util"
+    Plug 'terryma/vim-multiple-cursors'
+    Plug 'wellle/targets.vim'
+    Plug 'rhysd/accelerated-jk'
+    " Plug 'jiangmiao/auto-pairs'
+    Plug 'scrooloose/nerdtree'
     Plug 'windwp/nvim-autopairs'
 
     " highlight"
-	Plug 'justinmk/vim-syntax-extra'
-	Plug 'octol/vim-cpp-enhanced-highlight'
-	" Plug 'numirias/semshi'
-	Plug 'HerringtonDarkholme/yats.vim'
+    Plug 'justinmk/vim-syntax-extra'
+    Plug 'octol/vim-cpp-enhanced-highlight'
+    " Plug 'numirias/semshi'
+    Plug 'HerringtonDarkholme/yats.vim'
 
-	" vim commentary (gcc)"
-	Plug 'tpope/vim-commentary'
+    " vim commentary (gcc)"
+    Plug 'tpope/vim-commentary'
 
-	" colorschemes"
-	Plug 'altercation/vim-colors-solarized'
-	Plug 'rafi/awesome-vim-colorschemes'
-	"this has to be under"
-	Plug 'dracula/vim'
+    " colorschemes"
+    Plug 'altercation/vim-colors-solarized'
+    Plug 'rafi/awesome-vim-colorschemes'
+    "this has to be under"
+    Plug 'dracula/vim'
 
-	"air and lightline"
+    "air and lightline"
     Plug 'vim-airline/vim-airline'
-	Plug 'vim-airline/vim-airline-themes'
-	Plug 'tpope/vim-fugitive'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'tpope/vim-fugitive'
 
-	"latex fix latex"
-	" Plug 'xuhdev/vim-latex-live-preview'
-	" Plug 'lervag/vimtex'
+    "latex fix latex"
+    " Plug 'xuhdev/vim-latex-live-preview'
+    " Plug 'lervag/vimtex'
 
-	Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+    Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 
