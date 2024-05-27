@@ -29,9 +29,9 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'vim-airline/vim-airline-themes'
 	Plug 'tpope/vim-fugitive'
 
-	"latex"
-	Plug 'xuhdev/vim-latex-live-preview'
-	Plug 'lervag/vimtex'
+	"latex fix latex"
+	" Plug 'xuhdev/vim-latex-live-preview'
+	" Plug 'lervag/vimtex'
 
 	Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
@@ -39,7 +39,18 @@ call plug#begin('~/.config/nvim/plugged')
 
     "Fuzzy finder"
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'ibhagwan/fzf-lua'
+    " Plug 'junegunn/fzf.vim'
+    Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+
+    Plug 'seblj/nvim-formatter'
+
+    "Flutter"
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'stevearc/dressing.nvim' " optional for vim.ui.select
+    Plug 'akinsho/flutter-tools.nvim' " Dependecy 
+
+    "git conflict"
+    Plug 'akinsho/git-conflict.nvim'
 
 	call plug#end()
 
@@ -72,54 +83,49 @@ set undodir=$HOME/.vim/undo
 set undolevels=1000
 set undoreload=10000
 
-let mapleader = " "
-
 set completeopt-=preview "no scratch"
 
+"fix imports on save"
+autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+
 lua << EOF
+    require("fredrikm.keymaps")
+    require("fredrikm.flutter_config")
+    require("fredrikm.lang_toggle")
+    require("fredrikm.markdown_preview")
+    require("fredrikm.formatter")
+    require("fredrikm.toggle_format_on_save")
+    require("fredrikm.git_conflict")
 
-vim.keymap.set("n", "<leader>tf", function()
-    if vim.b.do_format == nil then
-        vim.b.do_format = false
-    else
-        vim.b.do_format = not vim.b.do_format
-    end
+    local group = vim.api.nvim_create_augroup("MyCustomGroup", { clear = true })
+    vim.api.nvim_create_autocmd("BufEnter", {
+        group = group,
+        pattern = "*",
+        callback = function()
+            vim.opt.formatoptions = vim.opt.formatoptions - 'o' + 'r' + 'c' - 't'
+        end,
+    })
 
-    if vim.b.do_format then
-        vim.api.nvim_echo({ { "Enabled autoformatting on save" } }, false, {})
-    else
-        vim.api.nvim_echo({ { "Disabled autoformatting on save" } }, false, {})
-    end
-end)
-
-    
-local group = vim.api.nvim_create_augroup("MyCustomGroup", { clear = true })
-vim.api.nvim_create_autocmd("BufEnter", {
-    group = group,
-    pattern = "*",
-    callback = function()
-        vim.opt.formatoptions = vim.opt.formatoptions - 'o' + 'r' + 'c' - 't'
-    end,
-})
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-    group = group,
-    pattern = { "*.ts", "*.js", "*.tsx", "*.jsx", "*.css", "*.scss", "*.html" },
-    callback = function()
-        if vim.b.do_format ~= false then
-            vim.cmd("Prettier")
-        end
-    end,
-})
-
-require("nvim-autopairs").setup {}
-
+    require("fzf-lua").setup {} -- use defaults
+    require("flutter-tools").setup {} -- use defaults
+    require("nvim-autopairs").setup {}
+    require("git-conflict").setup {
+        default_colors=true,
+        highlights = {
+            current = 'DiffText',
+            incoming = 'DiffAdd',
+            ancestor = nil,
+        },
+    }
+    vim.filetype.add({
+        filename = {
+            ["dockerfile.production"] = "dockerfile",
+            ["dockerfile.development"] = "dockerfile",
+            ["dockerfile.local"] = "dockerfile",
+        },
+    })
 EOF
 
-"Source language toggle" 
-source ~/.config/nvim/config/lang_toggle.lua
-
-"
 "latex"
 "live-preview"
 let g:livepreview_cursorhold_recompile = 0 "recompile when saving"
@@ -180,27 +186,10 @@ hi SpellCap gui=undercurl
 
 hi clear SpellRare
 
-"Nerdtree"
-let g:NERDTreeChDirMode = 2
 packloadall
 silent! helptags ALL
 
 " Key bindings:"
-
-" fuzzy finder "
-nnoremap <leader>s :FzfLua files<CR>
-nnoremap <leader>g :FzfLua git_files<CR>
-
-
-" alt+l to the right-window"
-nnoremap <A-l> <C-w><RIGHT>
-"alt+h arrown to move to the left-window"
-nnoremap <A-h> <C-w><LEFT>
-
-"tnt to toggle nerdtree"
-nnoremap <leader>n :NERDTreeToggle<CR>
-"rnt to refresh nerdtree root"
-nnoremap rnt :NERDTreeRefreshRoot<CR>
 
 "Coc"
 nmap <silent> gd <Plug>(coc-definition)
@@ -216,7 +205,8 @@ let g:coc_global_extensions = [ 'coc-json',
     \'coc-pyright',
     \'coc-go',
     \'coc-css',
-    \'coc-clangd',]
+    \'coc-clangd',
+    \'coc-rust-analyzer',]
 
 
 nnoremap <silent> gh :call <SID>show_documentation()<CR>
@@ -233,19 +223,8 @@ function! s:show_documentation()
   endif
 endfunction
 
-"ctr + l = unhighlight words
-nnoremap <silent> <C-l> :nohl<CR><C-l>
-
-"ctr + n = new tab
-nnoremap <C-t> :tabedit<CR>
-"tab = go to next tab
-nnoremap <tab> :tabn<CR>
-"shift + tab = go to previous tab
-nnoremap <S-tab> :tabp<CR>
-"ctrl+w" tabclose
-nnoremap <leader>c :tabclose<CR>
-"Fix"
-" nnoremap <C-i> gg=G
+"ctr + / to unhighlight words
+nnoremap <silent> <C-/> :nohl<CR><C-l>
 
 "shift + j = jump half page down
 nnoremap <S-J> <C-D>                                                        
@@ -264,9 +243,11 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 
 "= = end of line (normal mode)
 " nnoremap = $
+
 "multi line tab in"
 vnoremap > <gv
 vnoremap < >gv
+
 "latex"
 "Alt-a to completion with preview"
 nnoremap <A-a> :LLPStartPreview<CR>
