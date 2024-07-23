@@ -13,7 +13,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local cmp = require("fredrikm.lsp.cmp")
--- vim.api.nvim_set_hl(0, "highlightGroup", { bg = "#ffffff", fg = "#ffffff", sp = "#ffffff" })
 
 -- Add plugins
 require("lazy").setup({
@@ -24,30 +23,15 @@ require("lazy").setup({
 		"neovim/nvim-lspconfig",
 		cmp,
 	},
-	-- util
-	"terryma/vim-multiple-cursors",
-	"wellle/targets.vim",
-	"rhysd/accelerated-jk",
-	-- 'jiangmiao/auto-pairs',
-	"scrooloose/nerdtree",
-	{ "windwp/nvim-autopairs", opts = {} },
 
-	-- highlight
-	"justinmk/vim-syntax-extra",
-	"octol/vim-cpp-enhanced-highlight",
-	-- 'numirias/semshi',
-	"HerringtonDarkholme/yats.vim",
+	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+
+	"scrooloose/nerdtree",
 
 	-- vim commentary (gcc)
 	"tpope/vim-commentary",
 
-	-- colorschemes
-	-- { "altercation/vim-colors-solarized", priority = 1000 },
-	-- { "rafi/awesome-vim-colorschemes", priority = 1000 },
-
-	-- this has to be under
-	-- { "dracula/vim", priority = 1000 },
-
+	-- colorscheme
 	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
 	-- air and lightline
@@ -56,8 +40,8 @@ require("lazy").setup({
 	"tpope/vim-fugitive",
 
 	-- latex fix latex
-	-- 'xuhdev/vim-latex-live-preview',
-	-- 'lervag/vimtex',
+	-- "xuhdev/vim-latex-live-preview",
+	-- "lervag/vimtex",
 
 	{ "prettier/vim-prettier", build = "yarn install" },
 
@@ -67,40 +51,51 @@ require("lazy").setup({
 	{ "junegunn/fzf", build = "./install --bin" },
 	{ "ibhagwan/fzf-lua", branch = "main", opts = {} },
 
-	"seblj/nvim-formatter",
-
+	-- utils
 	{
+		"wellle/targets.vim",
+		"rhysd/accelerated-jk",
+		"tpope/vim-abolish",
 		"tpope/vim-surround",
+		{ "windwp/nvim-autopairs", opts = {} },
 	},
 
-	"tpope/Vim-abolish",
+	-- auto format
+	"seblj/nvim-formatter",
 
+	-- luaSnip for LSP
 	{
 		"L3MON4D3/LuaSnip",
 		version = "v2.*",
 		build = "make install_jsregexp",
 	},
 
-	-- Flutter
-	"nvim-lua/plenary.nvim",
-	"stevearc/dressing.nvim", -- for vim.ui.select
-	{ "akinsho/flutter-tools.nvim", opts = {} }, -- Dependecy
+	{
+		"nvim-flutter/flutter-tools.nvim",
+		lazy = false,
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"stevearc/dressing.nvim", -- optional for vim.ui.select
+		},
+		config = true,
+	},
+
 	-- git conflict
 	{
 		"akinsho/git-conflict.nvim",
-		dev = true,
-		dir = "~/git-conflict.nvim",
+		-- dev = true,
+		-- dir = "~/git-conflict.nvim",
 		version = "*",
 		config = true,
-		opts = {
-			default_mapping = false,
-			-- highlights = {
-			-- 	current = "highlightGroup",
-			-- 	incoming = "highlightGroup",
-			-- },
-		},
+		-- opts = {
+		-- 	default_mapping = false,
+		-- 	highlights = {
+		-- 		current = "DiffAdd",
+		-- 		incoming = "DiffText",
+		-- 	},
+		-- },
 	},
 }, {
 	ui = { backdrop = 100 },
-	install = { colorscheme = { "iceberg" } },
+	install = { colorscheme = { "catppuccin-mocha" } },
 })

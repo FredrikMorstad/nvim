@@ -4,7 +4,7 @@ require("mason-lspconfig").setup({
 		"lua_ls",
 		"rust_analyzer",
 		"gopls",
-		"tsserver",
+		"ts_ls",
 		"dockerls",
 		"docker_compose_language_service",
 		"terraformls",
@@ -33,6 +33,17 @@ require("mason-lspconfig").setup_handlers({
 				Lua = {
 					diagnostics = {
 						globals = { "vim" },
+					},
+				},
+			},
+		})
+	end,
+	["gopls"] = function()
+		require("lspconfig").gopls.setup({
+			settings = {
+				gopls = {
+					analyses = {
+						infertypeargs = false,
 					},
 				},
 			},

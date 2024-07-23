@@ -48,6 +48,9 @@ M.config = function()
 					fallback()
 				end
 			end, { "i", "s" }),
+			["<C-d>"] = cmp.mapping.scroll_docs(4),
+			["<C-u>"] = cmp.mapping.scroll_docs(-4),
+			["<C-s>"] = cmp.mapping.complete({}),
 			["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 		}),
 

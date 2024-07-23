@@ -25,6 +25,7 @@ vim.opt.completeopt:remove("preview")
 require("fredrikm.lazy")
 require("fredrikm.lsp.setup")
 require("fredrikm.lsp.cmp")
+require("fredrikm.treesitter")
 require("fredrikm.keymaps")
 require("fredrikm.flutter_config")
 require("fredrikm.lang_toggle")
@@ -34,13 +35,12 @@ require("fredrikm.toggle_format_on_save")
 require("fredrikm.git_conflict")
 require("fredrikm.airline")
 
-vim.cmd.colorscheme("catppuccin-macchiato")
+vim.cmd.colorscheme("catppuccin-mocha")
 
 vim.filetype.add({
-	filename = {
-		["dockerfile.production"] = "dockerfile",
-		["dockerfile.development"] = "dockerfile",
-		["dockerfile.local"] = "dockerfile",
+	pattern = {
+		["dockerfile.(.*)"] = "dockerfile",
+		["docker%-compose.(.*)"] = "yaml.docker-compose",
 	},
 })
 
