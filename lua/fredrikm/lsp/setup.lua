@@ -26,7 +26,7 @@ require("mason-lspconfig").setup_handlers({
 	function(server_name) -- default handler (optional)
 		require("lspconfig")[server_name].setup({})
 	end,
-	-- Next, you can provide a dedicated handler for specific servers.
+	-- set vim as a global  value in the lsp to avoid warnings when configuring vim
 	["lua_ls"] = function()
 		require("lspconfig").lua_ls.setup({
 			settings = {
@@ -45,6 +45,7 @@ vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "goto definitions" })
 vim.keymap.set("n", "gh", vim.lsp.buf.hover, { desc = "hover definition" })
 vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "display refrences" })
 
+-- remove/add imports on save in go files
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = "*.go",
 	callback = function()

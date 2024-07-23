@@ -13,7 +13,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local cmp = require("fredrikm.lsp.cmp")
-vim.api.nvim_set_hl(0, "highlightGroup", { bg = "#ffffff", fg = "#ffffff", sp = "#ffffff" })
+-- vim.api.nvim_set_hl(0, "highlightGroup", { bg = "#ffffff", fg = "#ffffff", sp = "#ffffff" })
 
 -- Add plugins
 require("lazy").setup({
@@ -42,11 +42,13 @@ require("lazy").setup({
 	"tpope/vim-commentary",
 
 	-- colorschemes
-	{ "altercation/vim-colors-solarized", priority = 1000 },
-	{ "rafi/awesome-vim-colorschemes", priority = 1000 },
+	-- { "altercation/vim-colors-solarized", priority = 1000 },
+	-- { "rafi/awesome-vim-colorschemes", priority = 1000 },
 
 	-- this has to be under
-	{ "dracula/vim", priority = 1000 },
+	-- { "dracula/vim", priority = 1000 },
+
+	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
 	-- air and lightline
 	"vim-airline/vim-airline",
@@ -92,13 +94,13 @@ require("lazy").setup({
 		config = true,
 		opts = {
 			default_mapping = false,
-			highlights = {
-				current = "highlightGroup",
-				incoming = "highlightGroup",
-			},
+			-- highlights = {
+			-- 	current = "highlightGroup",
+			-- 	incoming = "highlightGroup",
+			-- },
 		},
 	},
 }, {
 	ui = { backdrop = 100 },
-	install = { colorscheme = { "onedark" } },
+	install = { colorscheme = { "iceberg" } },
 })

@@ -34,6 +34,8 @@ require("fredrikm.toggle_format_on_save")
 require("fredrikm.git_conflict")
 require("fredrikm.airline")
 
+vim.cmd.colorscheme("catppuccin-macchiato")
+
 vim.filetype.add({
 	filename = {
 		["dockerfile.production"] = "dockerfile",
@@ -41,8 +43,6 @@ vim.filetype.add({
 		["dockerfile.local"] = "dockerfile",
 	},
 })
-
-vim.cmd.colorscheme("onedark")
 
 -- "Spell check error color"
 vim.api.nvim_set_hl(0, "SpellBad", { undercurl = true })

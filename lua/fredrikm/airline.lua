@@ -1,5 +1,4 @@
-
-vim.g.airline_theme = "onedark"
+-- vim.g.airline_theme = "tokyonight"
 
 -- vim.g["airline#extensions#coc#enabled"] = 0
 
