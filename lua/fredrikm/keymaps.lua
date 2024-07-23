@@ -1,7 +1,6 @@
 vim.g.mapleader = " "
 
--- Norwegian mapping of Option-<hjkl>
-vim.keymap.set({ "n", "x", "i" }, "˛", "<A-h>", { remap = true, desc = "Fix <A-h> mapping on mac" })
+-- Norwegian mapping of Option-<hjkl> vim.keymap.set({ "n", "x", "i" }, "˛", "<A-h>", { remap = true, desc = "Fix <A-h> mapping on mac" })
 vim.keymap.set({ "n", "x", "i" }, "√", "<A-j>", { remap = true, desc = "Fix <A-j> mapping on mac" })
 vim.keymap.set({ "n", "x", "i" }, "ª", "<A-k>", { remap = true, desc = "Fix <A-k> mapping on mac" })
 vim.keymap.set({ "n", "x", "i" }, "ﬁ", "<A-l>", { remap = true, desc = "Fix <A-l> mapping on mac" })
@@ -20,9 +19,12 @@ vim.keymap.set("x", "<", "<gv", { desc = "Keep visual mode on dedent" })
 vim.keymap.set("x", ">", ">gv", { desc = "Keep visual mode on indent" })
 
 -- coc get call signature
-vim.keymap.set("n", "<c-s>", ":call CocActionAsync('showSignatureHelp')")
-vim.keymap.set("n", "gn", "<Plug>(coc-diagnostic-next)", { desc = "go to next error" })
-vim.keymap.set("n", "gp", "<Plug>(coc-diagnostic-prev)", { desc = "go to previous error" })
+-- vim.keymap.set("n", "<c-s>", ":call CocActionAsync('showSignatureHelp')")
+-- -- coc go to next/prev error
+vim.keymap.set("n", "gn", vim.diagnostic.goto_next, { desc = "go to next error" })
+vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, { desc = "go to previous error" })
+--
+vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, { desc = "rename" })
 
 -- "alt+<hjkl> to move to the <left, down, up, right>-window"
 vim.keymap.set("n", "<A-h>", "<C-w><LEFT>", { desc = "move to left window" })
@@ -42,31 +44,28 @@ vim.keymap.set({ "n", "x", "o" }, "L", "$", { desc = "L to move to start of line
 -- tabs
 vim.keymap.set("n", "<C-t>", ":tabedit<CR>", { desc = "CTRL + t to open a new tab" })
 vim.keymap.set("n", "<C-w>", ":tabclose<CR>", { desc = "CTRL + w to close tab" })
-vim.keymap.set("n", "<tab>", ":tabn<CR>", { desc = "tab for moving to the next tab" })
-vim.keymap.set("n", "<S-tab>", ":tabp<CR>", { desc = "SHIFT + tab to move to the previous tab" })
+vim.keymap.set("n", "<TAB>", ":tabn<CR>", { desc = "tab for moving to the next tab" })
+vim.keymap.set("n", "<S-TAB>", ":tabp<CR>", { desc = "SHIFT + tab to move to the previous tab" })
 
 -- TODO find best mapping without conflicts for moving tabs
 -- CTRL-<h,l> to move a page left or right in the tab bar
 -- vim.keymap.set("n", "<C-Left>", ":-tabmove<CR>", { desc = "Move window left in the tab section" })
 -- vim.keymap.set("n", "<C-Right>", ":+tabmove<CR>", { desc = "Move window right in the tab section" })
 
-vim.keymap.set("n", "<A-j>", ":m.+1<CR>==", { desc = "Move current line down" })
-vim.keymap.set("x", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move current line down" })
-vim.keymap.set("i", "<A-j>", "<Esc>:m .+1<CR>==gi", { desc = "Move current line down" })
+vim.keymap.set("n", "<C-j>", ":m.+1<CR>==", { desc = "Move current line down" })
+vim.keymap.set("x", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move current line down" })
+vim.keymap.set("i", "<C-j>", "<Esc>:m .+1<CR>==gi", { desc = "Move current line down" })
 
-vim.keymap.set("n", "<A-k>", ":m.-2<CR>==", { desc = "Move current line up" })
-vim.keymap.set("x", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move current line up" })
-vim.keymap.set("i", "<A-k>", "<Esc>:m .-2<CR>==gi", { desc = "Move current line up" })
+vim.keymap.set("n", "<C-k>", ":m.-2<CR>==", { desc = "Move current line up" })
+vim.keymap.set("x", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move current line up" })
+vim.keymap.set("i", "<C-k>", "<Esc>:m .-2<CR>==gi", { desc = "Move current line up" })
 
 -- fuzzy finder
-vim.keymap.set("n", "<leader>s", ":FzfLua files<CR>", { desc = "Fuzzy finder for regular files" })
+vim.keymap.set("n", "<leader>s", ":FzfLua grep<CR>", { desc = "Fuzzy finder search for word" })
 vim.keymap.set("n", "<leader>g", ":FzfLua git_files<CR>", { desc = "Fuzzy finder for dotfiles " })
 
 -- highlights
 vim.keymap.set("n", "<leader>l", ":nohl<CR>", { desc = "<leader>-l to turn off search highlight" })
-
---
-vim.keymap.set("n", "<leader>r", "<Plug>(coc-rename)", { desc = "Rename string" })
 
 vim.cmd.cnoreabbrev({ "!!", "<C-r>:" }) -- Repeat last command
 vim.cmd.cnoreabbrev({ "Q", "q" }) -- Quit with Q

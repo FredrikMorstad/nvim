@@ -13,4 +13,3 @@ if vim.b.do_format == nil then
     end
 end, {desc="Toggle format on save"})
 
-        
