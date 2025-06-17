@@ -13,13 +13,24 @@ require("mason-lspconfig").setup({
 		"jsonls",
 		"markdown_oxide",
 		"nginx_language_server",
-		"jedi_language_server",
 		"sqlls",
 		"hydra_lsp",
+		"pyright",
 	},
 })
 
+local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+local capabilities = vim.tbl_deep_extend(
+	"force",
+	vim.lsp.protocol.make_client_capabilities(),
+	ok and cmp_nvim_lsp.default_capabilities() or {}
+)
+
 require("mason-lspconfig").setup_handlers({
+
+	function(server)
+		require("lspconfig")[server].setup({ capabilities = capabilities })
+	end,
 	-- The first entry (without a key) will be the default handler
 	-- and will be called for each installed server that doesn't have
 	-- a dedicated handler.
@@ -47,6 +58,18 @@ require("mason-lspconfig").setup_handlers({
 					},
 				},
 			},
+		})
+	end,
+	["pyright"] = function()
+		require("lspconfig").pyright.setup({
+			before_init = function(_, config)
+				local venv_path = os.getenv("VIRTUAL_ENV")
+				if venv_path then
+					config.settings.python = {
+						pythonPath = venv_path .. "/bin/python",
+					}
+				end
+			end,
 		})
 	end,
 })

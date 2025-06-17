@@ -95,6 +95,15 @@ require("lazy").setup({
 		-- 	},
 		-- },
 	},
+	{
+		"weirongxu/plantuml-previewer.vim",
+	},
+	{
+		"tyru/open-browser.vim",
+	},
+	{
+		"aklt/plantuml-syntax",
+	},
 }, {
 	ui = { backdrop = 100 },
 	install = { colorscheme = { "catppuccin-mocha" } },

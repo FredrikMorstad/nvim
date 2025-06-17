@@ -34,6 +34,7 @@ require("fredrikm.formatter")
 require("fredrikm.toggle_format_on_save")
 require("fredrikm.git_conflict")
 require("fredrikm.airline")
+require("fredrikm.nerdtree")
 
 vim.cmd.colorscheme("catppuccin-mocha")
 

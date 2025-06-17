@@ -23,6 +23,7 @@ vim.keymap.set("x", ">", ">gv", { desc = "Keep visual mode on indent" })
 -- -- coc go to next/prev error
 vim.keymap.set("n", "gn", vim.diagnostic.goto_next, { desc = "go to next error" })
 vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, { desc = "go to previous error" })
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "show error in more detail" })
 --
 vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, { desc = "rename" })
 
@@ -43,7 +44,7 @@ vim.keymap.set({ "n", "x", "o" }, "L", "$", { desc = "L to move to start of line
 
 -- tabs
 vim.keymap.set("n", "<C-t>", ":tabedit<CR>", { desc = "CTRL + t to open a new tab" })
-vim.keymap.set("n", "<C-w>", ":tabclose<CR>", { desc = "CTRL + w to close tab" })
+-- vim.keymap.set("n", "<C-w>", ":tabclose<CR>", { desc = "CTRL + w to close tab" })
 vim.keymap.set("n", "<TAB>", ":tabn<CR>", { desc = "tab for moving to the next tab" })
 vim.keymap.set("n", "<S-TAB>", ":tabp<CR>", { desc = "SHIFT + tab to move to the previous tab" })
 
@@ -63,6 +64,9 @@ vim.keymap.set("i", "<C-k>", "<Esc>:m .-2<CR>==gi", { desc = "Move current line 
 -- fuzzy finder
 vim.keymap.set("n", "<leader>s", ":FzfLua grep<CR>", { desc = "Fuzzy finder search for word" })
 vim.keymap.set("n", "<leader>g", ":FzfLua git_files<CR>", { desc = "Fuzzy finder for dotfiles " })
+-- fuzzy preview
+vim.keymap.set("n", "rp", ":FzfLua lsp_references<CR>", { desc = "preview referances implementation" })
+vim.keymap.set("n", "dp", ":FzfLua lsp_definitions<CR>", { desc = "preview definition" })
 
 -- highlights
 vim.keymap.set("n", "<leader>l", ":nohl<CR>", { desc = "<leader>-l to turn off search highlight" })

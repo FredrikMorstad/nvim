@@ -29,10 +29,13 @@ M.config = function()
 			-- documentation = cmp.config.window.bordered(),
 		},
 
+		preselect = cmp.PreselectMode.None,
+
 		mapping = cmp.mapping.preset.insert({
 			["<Tab>"] = cmp.mapping(function(fallback)
 				if cmp.visible() then
 					cmp.select_next_item()
+					-- cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
 				elseif ls.locally_jumpable(1) then
 					ls.jump(1)
 				else
@@ -42,6 +45,7 @@ M.config = function()
 			["<S-Tab>"] = cmp.mapping(function(fallback)
 				if cmp.visible() then
 					cmp.select_prev_item()
+					-- cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
 				elseif ls.locally_jumpable(-1) then
 					ls.jump(-1)
 				else
@@ -51,7 +55,7 @@ M.config = function()
 			["<C-d>"] = cmp.mapping.scroll_docs(4),
 			["<C-u>"] = cmp.mapping.scroll_docs(-4),
 			["<C-s>"] = cmp.mapping.complete({}),
-			["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+			["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 		}),
 
 		sources = cmp.config.sources({
