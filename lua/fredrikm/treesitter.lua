@@ -1,5 +1,5 @@
 require("nvim-treesitter.configs").setup({
-	ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "go", "rust" },
+	ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "go", "rust", "proto" },
 	auto_install = true,
 })
 

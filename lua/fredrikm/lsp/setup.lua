@@ -27,7 +27,6 @@ local capabilities = vim.tbl_deep_extend(
 )
 
 require("mason-lspconfig").setup_handlers({
-
 	function(server)
 		require("lspconfig")[server].setup({ capabilities = capabilities })
 	end,
@@ -70,6 +69,11 @@ require("mason-lspconfig").setup_handlers({
 					}
 				end
 			end,
+		})
+	end,
+	["clangd"] = function()
+		require("lspconfig").clangd.setup({
+			filetypes = { "c", "cpp", "objc", "objcpp" },
 		})
 	end,
 })
