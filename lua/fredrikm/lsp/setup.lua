@@ -16,6 +16,7 @@ require("mason-lspconfig").setup({
 		"sqlls",
 		"hydra_lsp",
 		"pyright",
+		"protols",
 	},
 })
 
@@ -26,56 +27,51 @@ local capabilities = vim.tbl_deep_extend(
 	ok and cmp_nvim_lsp.default_capabilities() or {}
 )
 
-require("mason-lspconfig").setup_handlers({
-	function(server)
-		require("lspconfig")[server].setup({ capabilities = capabilities })
-	end,
-	-- The first entry (without a key) will be the default handler
-	-- and will be called for each installed server that doesn't have
-	-- a dedicated handler.
-	function(server_name) -- default handler (optional)
-		require("lspconfig")[server_name].setup({})
-	end,
-	-- set vim as a global  value in the lsp to avoid warnings when configuring vim
-	["lua_ls"] = function()
-		require("lspconfig").lua_ls.setup({
-			settings = {
-				Lua = {
-					diagnostics = {
-						globals = { "vim" },
-					},
-				},
+vim.lsp.config("*", { capabilities = capabilities })
+
+vim.lsp.config("lua_ls", {
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = { "vim" },
 			},
-		})
-	end,
-	["gopls"] = function()
-		require("lspconfig").gopls.setup({
-			settings = {
-				gopls = {
-					analyses = {
-						infertypeargs = false,
-					},
-				},
+		},
+	},
+})
+
+vim.lsp.config("gopls", {
+	settings = {
+		gopls = {
+			analyses = {
+				infertypeargs = false,
 			},
-		})
+		},
+	},
+})
+
+vim.lsp.config("pyright", {
+	before_init = function(_, config)
+		local venv_path = os.getenv("VIRTUAL_ENV")
+		if venv_path then
+			config.settings.python = {
+				pythonPath = venv_path .. "/bin/python",
+			}
+		end
 	end,
-	["pyright"] = function()
-		require("lspconfig").pyright.setup({
-			before_init = function(_, config)
-				local venv_path = os.getenv("VIRTUAL_ENV")
-				if venv_path then
-					config.settings.python = {
-						pythonPath = venv_path .. "/bin/python",
-					}
-				end
-			end,
-		})
+})
+
+vim.lsp.config("protols", {
+	before_init = function(_, config)
+		config.init_options = {
+			include_paths = {
+				"/Users/fredrik/coop/services-interfaces/",
+			},
+		}
 	end,
-	["clangd"] = function()
-		require("lspconfig").clangd.setup({
-			filetypes = { "c", "cpp", "objc", "objcpp" },
-		})
-	end,
+})
+
+vim.lsp.config("clangd", {
+	filetypes = { "c", "cpp", "objc", "objcpp" },
 })
 
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "goto implementation" })
